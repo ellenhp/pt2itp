@@ -10,7 +10,7 @@
 
 ## Version History
 
-### v28.8.2
+### v28.8.3
 - :bug: Add support to skip negative lookahead for Australia and New Zealand.
 
 ### v28.8.0

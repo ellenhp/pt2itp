@@ -11,7 +11,13 @@
 ## Version History
 
 ### v28.8.3
+- :bug: Update asset upload scripts and remove node-pre-gyp-github
+
+### v28.8.2
 - :bug: Add support to skip negative lookahead for Australia and New Zealand.
+
+### v28.8.1
+- :bug: Get token from mbx-ci
 
 ### v28.8.0
 - :bug: Add support to skip negative lookahead for Singapore, Iceland.

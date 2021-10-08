@@ -16,3 +16,4 @@ if [[ -z ${NODE_PRE_GYP_GITHUB_TOKEN} ]]; then
 fi
 
 yarn package
+bash ./scripts/upload_asset.sh

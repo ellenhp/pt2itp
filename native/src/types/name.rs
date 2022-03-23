@@ -71,6 +71,7 @@ impl Names {
         names.empty();
         names.sort();
         names.dedupe();
+        //names.filter_outliers();
 
         names
     }
@@ -233,6 +234,24 @@ impl Names {
                 }
             }
         });
+    }
+
+    ///
+    /// Filter outlier names
+    ///
+    pub fn filter_outliers(&mut self) {
+        // XXX TODO ensure primary name is not removed
+        // XXX TODO ensure names is not reduced to empty
+        let total_freq: i64 = self.names.iter().map(|name| name.freq).sum();
+        println!("total_freq is {}", total_freq);
+        // Only filter when there are more than 50 addresses in the cluster
+        if (total_freq > 50) {
+            // XXX remove this debug
+            //let temp_names = &mut *self.names;
+            //temp_names.into_iter().for_each(|name| println!("name.freq is {}, percentage is {:.64}", name.freq, name.freq as f32 / total_freq as f32));
+            self.names
+                .retain(|name| (name.freq as f32 / total_freq as f32) > 0.1);
+        }
     }
 
     ///

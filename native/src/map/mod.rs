@@ -518,6 +518,7 @@ pub fn dedupe_syn(mut cx: FunctionContext) -> JsResult<JsArray> {
     names.empty();
     names.sort();
     names.dedupe();
+    names.filter_outliers();
 
     let display_names: Vec<String> = names.names.into_iter().map(|name| name.display).collect();
 

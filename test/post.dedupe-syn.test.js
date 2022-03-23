@@ -52,11 +52,11 @@ tape('dedupe feature names', (t) => {
     t.deepEqual(
         dedupe_syn([
             { display: 'NE M L King Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1480 },
-            { display: 'NE Martin Luther King Jr Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'martin', token_type: null }, { token: 'luther', token_type: null }, { token: 'king', token_type: null }, { token: 'jr', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 110 },
-            { display: 'NE M L KING BLVD', priority: -1, source: 'Address', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 18 },
-            { display: 'SE M L King Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'se', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 7 },
-            { display: 'N M L King Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'n', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 3 },
-            { display: 'SE Martin Luther King Jr Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'se', token_type: 'Cardinal' }, { token: 'martin', token_type: null }, { token: 'luther', token_type: null }, { token: 'king', token_type: null }, { token: 'jr', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 2 },
+            { display: 'NE Martin Luther King Jr Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'martin', token_type: null }, { token: 'luther', token_type: null }, { token: 'king', token_type: null }, { token: 'jr', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1100 },
+            { display: 'NE M L KING BLVD', priority: -1, source: 'Address', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1100 },
+            { display: 'SE M L King Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'se', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1100 },
+            { display: 'N M L King Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'n', token_type: 'Cardinal' }, { token: 'm', token_type: null }, { token: 'l', token_type: null }, { token: 'king', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1100 },
+            { display: 'SE Martin Luther King Jr Blvd', priority: -1, source: 'Address', tokenized: [{ token: 'se', token_type: 'Cardinal' }, { token: 'martin', token_type: null }, { token: 'luther', token_type: null }, { token: 'king', token_type: null }, { token: 'jr', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1100 },
             { display: 'NE MLK', priority: -1, source: 'Network', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'mlk', token_type: null }], freq: 1 },
             { display: 'Northeast Martin Luther King Junior Boulevard', priority: 1, source: 'Network', tokenized: [{ token: 'ne', token_type: 'Cardinal' }, { token: 'martin', token_type: null }, { token: 'luther', token_type: null }, { token: 'king', token_type: null }, { token: 'jr', token_type: null }, { token: 'blvd', token_type: 'Way' }], freq: 1 },
             { display: 'OR 99E', priority: -1, source: 'Network', tokenized: [{ token: 'or', token_type: null }, { token: '99e', token_type: null }], freq: 1 },
@@ -93,6 +93,36 @@ tape('dedupe feature names', (t) => {
             'NE MLK Jr',
             'NE M L K Jr'
         ]);
+
+    t.deepEqual(
+        dedupe_syn([
+            { freq: 25, source: 'Address', display: 'Main St', priority: 1, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'Main Street', priority: 0, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'E Main Av', priority: 1, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'East Main Avenue', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] }
+        ]),
+        ['Main Street']
+    );
+
+    t.deepEqual(
+        dedupe_syn([
+            { freq: 1, source: 'Address', display: 'Main St', priority: 1, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
+            { freq: 200, source: 'Address', display: 'Main Street', priority: 0, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'E Main Av', priority: 1, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'East Main Avenue', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] }
+        ]),
+        ['Main Street']
+    );
+
+    t.deepEqual(
+        dedupe_syn([
+            { freq: 20, source: 'Network', display: 'East Hackberry Drive', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
+            { freq: 20, source: 'Address', display: 'E Hackberry Dr', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'W Hackberry Dr', priority: 0, tokenized: [{ token: 'w', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'Hackberry Dr', priority: 0, tokenized: [{ token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] }
+        ]),
+        ['East Hackberry Drive']
+    );
 
     t.end();
 });

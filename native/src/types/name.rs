@@ -197,10 +197,13 @@ impl Names {
                         || name.display.len() > d.name.display.len()
                     {
                         let priority = d.name.priority;
-                        let freq = d.name.freq;
+                        let freq = d.name.freq + name.freq;
                         d.name = name;
                         d.name.priority = priority;
                         d.name.freq = freq;
+                    } else {
+                        // Keep track of frequency
+                        d.name.freq = d.name.freq + name.freq;
                     }
                 }
                 // if it doesn't yet exist, add it
@@ -233,6 +236,27 @@ impl Names {
                 }
             }
         });
+    }
+
+    ///
+    /// Filter outlier names
+    ///
+    pub fn filter_outliers(&mut self) {
+        let total_freq: i64 = self.names.iter().map(|name| name.freq).sum();
+        // Only filter when there are more than 10 addresses in the cluster
+        if total_freq > 10 {
+            let mut temp_names: Vec<Name> = self.names.clone();
+            // Remove names that represent 8% or less of names in the cluster
+            // and only if their source is from an address point
+            temp_names.retain(|name| {
+                name.source != Some(Source::Address)
+                    || (name.freq as f32 / total_freq as f32) > 0.08
+                        && name.source == Some(Source::Address)
+            });
+            if temp_names.len() > 0 {
+                self.names = temp_names;
+            }
+        }
     }
 
     ///
@@ -604,9 +628,9 @@ mod tests {
         names.dedupe();
         let names_deduped = Names {
             names: vec![
-                Name::new(String::from("highway 3"), -1, None, &context).set_freq(1),
-                Name::new(String::from("hwy 2"), -1, None, &context).set_freq(1),
-                Name::new(String::from("hwy 1"), -1, None, &context),
+                Name::new(String::from("highway 3"), -1, None, &context).set_freq(2),
+                Name::new(String::from("hwy 2"), -1, None, &context).set_freq(3),
+                Name::new(String::from("hwy 1"), -1, None, &context).set_freq(2),
             ],
         };
         assert_eq!(names, names_deduped);
@@ -655,9 +679,143 @@ mod tests {
                 0,
                 Some(Source::Generated),
                 &context,
-            )],
+            )
+            .set_freq(3)],
         };
         assert_eq!(names, names_deduped);
+
+        // Name not filtered if source is not Address
+        let mut names = Names {
+            names: vec![
+                Name::new(
+                    String::from("East Hackberry Drive"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                )
+                .set_freq(21),
+                Name::new(
+                    String::from("E Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(20),
+                Name::new(
+                    String::from("W Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+                Name::new(
+                    String::from("Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
+        };
+        names.dedupe();
+        let names_deduped = Names {
+            names: vec![
+                Name::new(
+                    String::from("East Hackberry Drive"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                )
+                .set_freq(41),
+                Name::new(
+                    String::from("W Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+                Name::new(
+                    String::from("Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
+        };
+        assert_eq!(names, names_deduped);
+    }
+
+    #[test]
+    fn test_names_filter_outliers() {
+        let mut context = Context::new(
+            String::from("us"),
+            None,
+            Tokens::generate(vec![String::from("en")]),
+        );
+
+        // Name not filtered if source is not Address
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
+                Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
+                Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
+            ],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
+
+        // Name is filtered if source is Address and prevalence is < .08
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(12)],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
+
+        // Name is not filtered if source is Address and prevalence is > .08
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(3),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(3),
+            ],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
     }
 
     #[test]
@@ -711,6 +869,17 @@ mod tests {
         assert_eq!(
             Names::from_value(Some(json!("Main St NE")), Some(Source::Address), &context).unwrap(),
             expected
+        );
+
+        let expected = Names::new(
+            vec![Name::new(
+                String::from("Main St NE"),
+                -1,
+                Some(Source::Address),
+                &context,
+            )
+            .set_freq(2)],
+            &context,
         );
 
         assert_eq!(
@@ -843,7 +1012,7 @@ mod tests {
                 &context
             ),
             Names {
-                names: vec![Name::new(String::from("Main Street"), 0, None, &context)]
+                names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(2)]
             }
         );
 
@@ -860,8 +1029,8 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main Street"), 0, None, &context),
-                    Name::new(String::from("East Main Street"), 0, None, &context)
+                    Name::new(String::from("Main Street"), 0, None, &context).set_freq(2),
+                    Name::new(String::from("East Main Street"), 0, None, &context).set_freq(2)
                 ]
             }
         );
@@ -879,8 +1048,8 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main Street"), 1, None, &context),
-                    Name::new(String::from("East Main Street"), 1, None, &context)
+                    Name::new(String::from("Main Street"), 1, None, &context).set_freq(2),
+                    Name::new(String::from("East Main Street"), 1, None, &context).set_freq(2)
                 ]
             }
         );
@@ -944,32 +1113,38 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main St"), 0, Some(Source::Network), &context),
+                    Name::new(String::from("Main St"), 0, Some(Source::Network), &context)
+                        .set_freq(1),
                     Name::new(
                         String::from("US Route 1"),
                         -1,
                         Some(Source::Generated),
                         &context
-                    ),
-                    Name::new(String::from("US 1"), -2, Some(Source::Generated), &context),
+                    )
+                    .set_freq(2),
+                    Name::new(String::from("US 1"), -2, Some(Source::Generated), &context)
+                        .set_freq(1),
                     Name::new(
                         String::from("US Highway 1"),
                         -2,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(1),
                     Name::new(
                         String::from("United States Route 1"),
                         -2,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(1),
                     Name::new(
                         String::from("United States Highway 1"),
                         -2,
                         Some(Source::Generated),
                         &context
                     )
+                    .set_freq(1)
                 ]
             }
         );
@@ -1008,13 +1183,15 @@ mod tests {
                         0,
                         Some(Source::Address),
                         &context
-                    ),
+                    )
+                    .set_freq(2),
                     Name::new(
                         String::from("US Highway 1"),
                         -1,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(3),
                     Name::new(
                         String::from("US Route 1"),
                         -1,
@@ -1089,7 +1266,7 @@ mod tests {
                         &context
                     ),
                     Name::new("NE M L King Blvd", -1, Some(Source::Address), &context)
-                        .set_freq(1480),
+                        .set_freq(1498),
                     Name::new("SE M L King Blvd", -1, Some(Source::Address), &context).set_freq(7),
                     Name::new("N M L King Blvd", -1, Some(Source::Address), &context).set_freq(3),
                     Name::new(
@@ -1099,7 +1276,7 @@ mod tests {
                         &context
                     )
                     .set_freq(2),
-                    Name::new("NE MLK", -1, Some(Source::Generated), &context),
+                    Name::new("NE MLK", -1, Some(Source::Generated), &context).set_freq(2),
                     Name::new("Or 99e", -1, Some(Source::Network), &context),
                     Name::new("State Highway 99e", -1, Some(Source::Network), &context),
                     Name::new(

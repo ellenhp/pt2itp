@@ -10,7 +10,7 @@ name = "pt2itp"
 crate-type = ["dylib"]
 
 [build-dependencies]
-neon-build = "0.5"
+neon-build = "0.7.1"
 
 [dependencies]
 crossbeam = "0.7"
@@ -20,7 +20,7 @@ regex = "1.1"
 rstar = "0.4"
 postgis = "0.6.0"
 geo = "0.12.2"
-neon = "0.5"
+neon = "0.7.1"
 neon-serde = { git = "https://github.com/mattciferri/neon-serde.git", rev="a9d9164f45ff65f6f64037fe8cb3490bed357580" }
 serde_json = "1.0"
 serde_derive = "1.0"

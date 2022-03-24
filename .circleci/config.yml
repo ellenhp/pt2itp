@@ -32,16 +32,16 @@ jobs:
             - run:
                 name: "Install NodeJS"
                 command: |
-                  curl 'https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.gz' | tar -xzv \
-                  && cp ./node-v10.15.3-linux-x64/bin/node /usr/bin/ \
-                  && ./node-v10.15.3-linux-x64/bin/npm install -g yarn \
-                  && ./node-v10.15.3-linux-x64/bin/npm install -g npm \
+                  curl 'https://nodejs.org/dist/v14.19.1/node-v14.19.1-linux-x64.tar.gz' | tar -xzv \
+                  && cp ./node-v14.19.1-linux-x64/bin/node /usr/bin/ \
+                  && ./node-v14.19.1-linux-x64/bin/npm install -g yarn \
+                  && ./node-v14.19.1-linux-x64/bin/npm install -g npm \
                   && echo "export PATH=$(yarn global bin):$PATH" >> $BASH_ENV \
                   yarn install
 
             - run:
                 name: "Install Neon"
-                command: "yarn global add neon-cli@0.3.1"
+                command: "yarn global add neon-cli@0.5.0"
             - run:
                 name: "Yarn Install"
                 command: yarn build && yarn install

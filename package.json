@@ -30,7 +30,7 @@
   },
   "author": "Nicholas Ingalls <nicholas.ingalls@gmail.com>",
   "dependencies": {
-    "@mapbox/carmen": "27.2.0",
+    "@mapbox/carmen": "34.1.4",
     "@mapbox/eslint-config-geocoding": "^2.0.2",
     "@mapbox/geocoder-abbreviations": "4.6.9",
     "@mapbox/geojson-area": "^0.2.2",
@@ -47,7 +47,7 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "n-readlines": "^1.0.0",
-    "neon-cli": "0.3.1",
+    "neon-cli": "0.5.0",
     "node-pre-gyp": "~0.13.0",
     "pg": "^7.3.0",
     "pg-copy-streams": "^2.1.0",
@@ -75,7 +75,7 @@
     "extends": "@mapbox/eslint-config-geocoding"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 14"
   },
   "repository": {
     "type": "git",

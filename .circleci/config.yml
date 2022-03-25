@@ -3,7 +3,7 @@ version: 2
 jobs:
     build:
         docker:
-            - image: ubuntu:18.04
+            - image: ubuntu:20.04
             - image: mdillon/postgis:11
         resource_class: xlarge
         environment:

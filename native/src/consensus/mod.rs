@@ -67,7 +67,8 @@ pub fn consensus(mut cx: FunctionContext) -> JsResult<JsValue> {
                 }
 
                 let arg_val = arg_obj.as_value(&mut cx);
-                neon_serde::from_value(&mut cx, arg_val).or_else(|e| cx.throw_error("some error message"))?
+                neon_serde::from_value(&mut cx, arg_val)
+                    .or_else(|e| cx.throw_error("some error message"))?
             }
         }
     };
@@ -195,7 +196,8 @@ pub fn consensus(mut cx: FunctionContext) -> JsResult<JsValue> {
         agreement.process_points(&source_map);
     }
 
-    Ok(neon_serde::to_value(&mut cx, &agreement).or_else(|e| cx.throw_error("some error message"))?)
+    Ok(neon_serde::to_value(&mut cx, &agreement)
+        .or_else(|e| cx.throw_error("some error message"))?)
 }
 
 ///

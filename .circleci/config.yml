@@ -32,7 +32,9 @@ jobs:
             - run:
                 name: "Install NodeJS"
                 command: |
-                  yarn install
+                  apt-get install python2.7 -y \
+                  && ln -s /usr/bin/python2.7 /usr/bin/python \
+                  && yarn install
 
             - run:
                 name: "Install Neon"

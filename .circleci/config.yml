@@ -32,9 +32,8 @@ jobs:
             - run:
                 name: "Install NodeJS"
                 command: |
-                  chown -R $USER:$USER /usr/bin \
                   curl 'https://nodejs.org/dist/v14.19.1/node-v14.19.1-linux-x64.tar.gz' | tar -xzv \
-                  && cp ./node-v14.19.1-linux-x64/bin/node /usr/bin/ \
+                  && sudo cp ./node-v14.19.1-linux-x64/bin/node /usr/bin/ \
                   && ./node-v14.19.1-linux-x64/bin/npm install -g yarn \
                   && ./node-v14.19.1-linux-x64/bin/npm install -g npm \
                   && echo "export PATH=$(yarn global bin):$PATH" >> $BASH_ENV \

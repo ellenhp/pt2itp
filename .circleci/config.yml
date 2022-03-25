@@ -3,7 +3,7 @@ version: 2
 jobs:
     build:
         docker:
-            - image: ubuntu:20.04
+            - image: cimg/base:edge-2022.03
             - image: mdillon/postgis:11
         resource_class: xlarge
         environment:

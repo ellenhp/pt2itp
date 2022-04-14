@@ -100,7 +100,7 @@ test('ITP Sort', (t) => {
 
         feats.sort(interpolize.itpSort);
 
-        q.equals(feats.map((v) => v.id).join(' '), '1 2 3 4 5');
+        q.equals(feats.map((v) => v.id).join(' '), '1 2 3 5 4');
 
         q.end();
     });

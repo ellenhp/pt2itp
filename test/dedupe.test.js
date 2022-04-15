@@ -62,7 +62,7 @@ test('dedupe (dataset)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4818462133408, 37.5005295201296]
+            coordinates: [-77.481846213, 37.500529520]
         }
     }, 'feature 1');
 
@@ -76,7 +76,7 @@ test('dedupe (dataset)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4825543165207, 37.5002699129026]
+            coordinates: [-77.482554316, 37.500269912]
         }
     }, 'feature 3');
 
@@ -90,7 +90,7 @@ test('dedupe (dataset)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4819427728653, 37.4995634362065]
+            coordinates: [-77.481942772, 37.499563436]
         }
     }, 'feature 4');
 
@@ -104,7 +104,7 @@ test('dedupe (dataset)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4813687801361, 37.4999975371368]
+            coordinates: [-77.481368780, 37.499997537]
         }
     }, 'feature 5');
 
@@ -118,7 +118,7 @@ test('dedupe (dataset)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4813687801361, 37.4999975371368]
+            coordinates: [-77.481368780, 37.499997537]
         }
 
     }, 'feature 6');
@@ -181,7 +181,7 @@ test('dedupe (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4818462133408, 37.5005295201296]
+            coordinates: [-77.481846213, 37.500529520]
         }
     }, 'feature 2');
 
@@ -198,7 +198,7 @@ test('dedupe (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4818462133408, 37.5005295201296]
+            coordinates: [-77.481846213, 37.500529520]
         }
     }, 'feature 7');
 

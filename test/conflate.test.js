@@ -241,7 +241,7 @@ test('conflate - MODIFY adds new names to existing address names preferencing ne
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.0008054375648, 38.8912875223052]
+            coordinates: [-77.000805438, 38.891287522]
         }
     });
 
@@ -333,7 +333,7 @@ test('conflate - MODIFY handles multiple updates to the same feature', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.0008054375648, 38.8912875223052]
+            coordinates: [-77.000805438, 38.891287522]
         }
     });
 
@@ -391,7 +391,7 @@ test('conflate - MODIFY all properties on the existing address are preserved, in
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.0008054375648, 38.8912875223052]
+            coordinates: [-77.000805438, 38.891287522]
         }
     });
 

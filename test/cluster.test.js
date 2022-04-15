@@ -22,12 +22,12 @@ test('cluster.address', (t) => {
         pool.query(`
             BEGIN;
 
-            INSERT INTO address (id, names, number, geom, netid) VALUES (1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.96119063892024] }'), 4326), 1);
-            INSERT INTO address (id, names, number, geom, netid) VALUES (2, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.96119063892024] }'), 4326), 1);
-            INSERT INTO address (id, names, number, geom, netid) VALUES (3, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 13, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-105.46875,56.36525013685606] }'), 4326), 3);
-            INSERT INTO address (id, names, number, geom, netid) VALUES (4, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 13, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-105.46875,56.36525013685606] }'), 4326), 3);
-            INSERT INTO address (id, names, number, geom, netid) VALUES (5, '[{ "tokenized": [{ "token": "fake", "token_type": null }, { "token": "av", "token_type": "Way" }], "display": "Fake Avenue", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-85.25390625,52.908902047770255] }'), 4326), 2);
-            INSERT INTO address (id, names, number, geom, netid) VALUES (6, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.96119063892024] }'), 4326), 1);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.961190639] }'), 4326), 1);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (2, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.961190639] }'), 4326), 1);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (3, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 13, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-105.46875,56.365250137] }'), 4326), 3);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (4, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 13, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-105.46875,56.365250137] }'), 4326), 3);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (5, '[{ "tokenized": [{ "token": "fake", "token_type": null }, { "token": "av", "token_type": "Way" }], "display": "Fake Avenue", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-85.25390625,52.908902048] }'), 4326), 2);
+            INSERT INTO address (id, names, number, geom, netid) VALUES (6, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [-66.97265625,43.961190639] }'), 4326), 1);
 
             COMMIT;
         `, (err) => {
@@ -58,9 +58,9 @@ test('cluster.address', (t) => {
             t.error(err, 'no errors');
 
             t.equals(res.rows.length, 3);
-            t.deepEquals(res.rows[0], { geom: { type: 'MultiPoint','coordinates':[[-85.25390625,52.9089020477703,5]] }, names: [{ freq: 1, tokenized: [{ token: 'fake', token_type: null }, { token: 'av', token_type: 'Way' }], display: 'Fake Avenue', priority: 0 }] });
-            t.deepEquals(res.rows[1], { geom: { 'type':'MultiPoint','coordinates':[[-105.46875,56.3652501368561,3],[-105.46875,56.3652501368561,4]] }, names: [{ freq: 2, tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }], display: 'Main Street', priority: 0 }] });
-            t.deepEquals(res.rows[2], { geom: { coordinates: [[-66.97265625, 43.9611906389202, 1], [-66.97265625, 43.9611906389202, 2], [-66.97265625, 43.9611906389202, 6]], type: 'MultiPoint' }, names: [{ freq: 3, tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }], display: 'Main Street', priority: 0 }] });
+            t.deepEquals(res.rows[0], { geom: { type: 'MultiPoint','coordinates':[[-85.25390625,52.908902048,5]] }, names: [{ freq: 1, tokenized: [{ token: 'fake', token_type: null }, { token: 'av', token_type: 'Way' }], display: 'Fake Avenue', priority: 0 }] });
+            t.deepEquals(res.rows[1], { geom: { 'type':'MultiPoint','coordinates':[[-105.46875,56.365250137,3],[-105.46875,56.365250137,4]] }, names: [{ freq: 2, tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }], display: 'Main Street', priority: 0 }] });
+            t.deepEquals(res.rows[2], { geom: { coordinates: [[-66.97265625, 43.961190639, 1], [-66.97265625, 43.961190639, 2], [-66.97265625, 43.961190639, 6]], type: 'MultiPoint' }, names: [{ freq: 3, tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }], display: 'Main Street', priority: 0 }] });
 
             return done();
         });
@@ -85,12 +85,12 @@ test('cluster.address - order synonyms by address count', (t) => {
         pool.query(`
             BEGIN;
 
-            INSERT INTO address (id, names, number, netid, geom) VALUES (21, '[{ "tokenized": [{ "token": "mill", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "Mill Street NW", "priority": 0, "freq": 1 }]', 12, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.41056871414183, 41.8005111239637 ] }'), 4326));
-            INSERT INTO address (id, names, number, netid, geom) VALUES (22, '[{ "tokenized": [{ "token": "mill", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "Mill Street NW", "priority": 0, "freq": 1 }]', 13, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.41054725646971, 41.801102975153974 ] }'), 4326));
+            INSERT INTO address (id, names, number, netid, geom) VALUES (21, '[{ "tokenized": [{ "token": "mill", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "Mill Street NW", "priority": 0, "freq": 1 }]', 12, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.410568714, 41.800511124 ] }'), 4326));
+            INSERT INTO address (id, names, number, netid, geom) VALUES (22, '[{ "tokenized": [{ "token": "mill", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "Mill Street NW", "priority": 0, "freq": 1 }]', 13, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.410547256, 41.801102975 ] }'), 4326));
 
-            INSERT INTO address (id, names, number, netid, geom) VALUES (23, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 10, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.41816473007202, 41.80102299558284 ] }'), 4326));
-            INSERT INTO address (id, names, number, netid, geom) VALUES (24, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 11, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.4172420501709, 41.80103899150505 ] }'), 4326));
-            INSERT INTO address (id, names, number, netid, geom) VALUES (25, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 12, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.41599750518799, 41.801166958738996 ] }'), 4326));
+            INSERT INTO address (id, names, number, netid, geom) VALUES (23, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 10, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.418164730, 41.801022996 ] }'), 4326));
+            INSERT INTO address (id, names, number, netid, geom) VALUES (24, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 11, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.417242050, 41.801038992 ] }'), 4326));
+            INSERT INTO address (id, names, number, netid, geom) VALUES (25, '[{ "tokenized": [{ "token": "r", "token_type": null }, { "token": "st", "token_type": "Way" }, { "token": "nw", "token_type": "Cardinal" }], "display": "R Street NW", "priority": 0, "freq": 1 }]', 12, 20, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point", "coordinates": [ -85.415997505, 41.801166959 ] }'), 4326));
 
 
             COMMIT;
@@ -157,10 +157,10 @@ test('cluster.network', (t) => {
     popQ.defer((done) => {
         pool.query(`
             BEGIN;
-            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -66.05390310287476, 45.26961632842303 ], [ -66.05441808700562, 45.271035832768376 ] ] ]}'), 4326));
-            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -66.05435371398926, 45.27100563091792 ], [ -66.05493307113646, 45.27245530161207 ] ] ]}'), 4326));
-            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -113.50117206573485, 53.55137413785917 ], [ -113.50112915039062, 53.54836549323335 ] ] ]}'), 4326));
-            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -113.50100040435791, 53.54836549323335 ], [ -113.50104331970215, 53.54614711825744 ] ] ]}'), 4326));
+            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -66.053903103, 45.269616328 ], [ -66.054418087, 45.271035833 ] ] ]}'), 4326));
+            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -66.054353714, 45.271005631 ], [ -66.054933071, 45.272455302 ] ] ]}'), 4326));
+            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -113.501172066, 53.551374138 ], [ -113.501129150, 53.548365493 ] ] ]}'), 4326));
+            INSERT INTO network (names, geom) VALUES ('[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "freq": 1, "priority": 0 }]', ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "MultiLineString", "coordinates": [ [ [ -113.501000404, 53.548365493 ], [ -113.501043321, 53.546147118 ] ] ]}'), 4326));
             COMMIT;
         `, (err) => {
             t.error(err, 'no errors');
@@ -202,16 +202,16 @@ test('cluster.network', (t) => {
                 }],
                 geom: {
                     type: 'MultiLineString',
-                    coordinates: [[[-66.0539031028748, 45.269616328423], [-66.0544180870056, 45.2710358327684]], [[-66.0543537139893, 45.2710056309179], [-66.0549330711365, 45.2724553016121]]]
+                    coordinates: [[[-113.501172066, 53.551374138], [-113.501129150, 53.548365493]], [[-113.501000404, 53.548365493], [-113.501043321, 53.546147118]]]
                 },
-                source_ids: ['1', '2']
+                source_ids: ['3', '4']
             });
 
             t.deepEquals(res.rows[1], {
                 id: 2,
                 geom: {
                     type: 'MultiLineString',
-                    coordinates: [[[-113.501172065735, 53.5513741378592], [-113.501129150391, 53.5483654932333]], [[-113.501000404358, 53.5483654932333], [-113.501043319702, 53.5461471182574]]]
+                    coordinates: [[[-66.053903103, 45.269616328], [-66.054418087, 45.271035833]], [[-66.054353714, 45.271005631], [-66.054933071, 45.272455302]]]
                 },
                 names: [{
                     freq: 1,
@@ -219,7 +219,7 @@ test('cluster.network', (t) => {
                     display: 'Main Street',
                     priority: 0
                 }],
-                source_ids: ['3', '4']
+                source_ids: ['1', '2']
             });
 
 

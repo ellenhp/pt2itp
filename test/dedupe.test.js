@@ -215,7 +215,7 @@ test('dedupe (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.4818462133408, 37.5005295201296]
+            coordinates: [-77.481846213, 37.500529520]
         }
     }, 'feature 8');
 

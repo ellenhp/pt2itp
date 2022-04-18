@@ -186,40 +186,46 @@ test('cluster.network', (t) => {
             FROM
                 network_cluster
             ORDER BY
-                names ASC;
+                id ASC;
         `, (err, res) => {
             t.error(err, 'no errors');
 
             t.equals(res.rows.length, 2);
 
+            res.rows.sort(function(a, b) {
+                if (a.source_ids[0] < b.source_ids[0]) return -1;
+                else if (a.source_ids[0] > b.source_ids[0]) return 1;
+                else return 0;
+            });
+
             t.deepEquals(res.rows[0], {
-                id: 1,
+                id: 2,
                 names: [{
                     freq: 1,
                     tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }],
                     display: 'Main Street',
                     priority: 0
                 }],
-                geom: {
-                    type: 'MultiLineString',
-                    coordinates: [[[-113.501172066, 53.551374138], [-113.501129150, 53.548365493]], [[-113.501000404, 53.548365493], [-113.501043321, 53.546147118]]]
-                },
-                source_ids: ['3', '4']
-            });
-
-            t.deepEquals(res.rows[1], {
-                id: 2,
                 geom: {
                     type: 'MultiLineString',
                     coordinates: [[[-66.053903103, 45.269616328], [-66.054418087, 45.271035833]], [[-66.054353714, 45.271005631], [-66.054933071, 45.272455302]]]
                 },
+                source_ids: ['1', '2']
+            });
+
+            t.deepEquals(res.rows[1], {
+                id: 1,
+                geom: {
+                    type: 'MultiLineString',
+                    coordinates: [[[-113.501172066, 53.551374138], [-113.501129150, 53.548365493]], [[-113.501000404, 53.548365493], [-113.501043321, 53.546147118]]]
+                },
                 names: [{
                     freq: 1,
                     tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }],
                     display: 'Main Street',
                     priority: 0
                 }],
-                source_ids: ['1', '2']
+                source_ids: ['3', '4']
             });
 
 

@@ -192,7 +192,7 @@ test('cluster.network', (t) => {
 
             t.equals(res.rows.length, 2);
 
-            res.rows.sort(function(a, b) {
+            res.rows.sort((a, b) => {
                 if (a.source_ids[0] < b.source_ids[0]) return -1;
                 else if (a.source_ids[0] > b.source_ids[0]) return 1;
                 else return 0;

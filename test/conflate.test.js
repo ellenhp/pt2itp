@@ -183,7 +183,7 @@ test('conflate - CREATE finds feature with different address number and street, 
         },
         geometry: {
             type: 'Point',
-            coordinates: [-77.00080543756485, 38.89128752230519]
+            coordinates: [-77.000805438, 38.891287522]
         }
     });
 

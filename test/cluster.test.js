@@ -186,7 +186,7 @@ test('cluster.network', (t) => {
             FROM
                 network_cluster
             ORDER BY
-                id ASC;
+                names ASC;
         `, (err, res) => {
             t.error(err, 'no errors');
 

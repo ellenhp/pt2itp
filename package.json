@@ -48,7 +48,7 @@
     "minimist": "^1.2.0",
     "n-readlines": "^1.0.0",
     "neon-cli": "0.5.0",
-    "node-pre-gyp": "~0.13.0",
+    "@mapbox/node-pre-gyp": "^1.0.0",
     "pg": "^8.7.0",
     "pg-copy-streams": "^2.1.0",
     "pg-cursor": "^2.0.0",

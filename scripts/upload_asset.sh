@@ -12,7 +12,7 @@ tag="$CIRCLE_TAG"
 GH_REPO="$GH_API/repos/$owner/$repo"
 GH_TAGS="$GH_REPO/releases/tags/$tag"
 AUTH="Authorization: token $token"
-file_path="build/stage/$tag/node-v64-linux-x64.tar.gz"
+file_path="build/stage/$tag/node-v83-linux-x64.tar.gz"
 
 function generate_post_data()
 {

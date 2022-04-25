@@ -222,7 +222,7 @@ impl Address {
             static ref HALF: Regex = Regex::new(r"\s1/2$").unwrap();
             static ref UNIT: Regex = Regex::new(r"^(?P<num>\d+)\s(?P<unit>[a-z])$").unwrap();
             static ref DEFAULT_SUPPORTED: RegexSet = RegexSet::new(&[
-                r"^\d+[a-z]?$",
+                r"^\d+[a-zа-ё]?$",
                 r"^(\d+)-(\d+)[a-z]?$",
                 r"^(\d+)([nsew])(\d+)[a-z]?$",
                 r"^([nesw])(\d+)([nesw]\d+)?$",
@@ -230,7 +230,7 @@ impl Address {
             ])
             .unwrap();
             static ref SLASH_SUPPORTED: RegexSet = RegexSet::new(&[
-                r"^\d+[a-z]?$",
+                r"^\d+[a-zа-ё]?$",
                 r"^(\d+)-(\d+)[a-z]?$",
                 r"^(\d+)/(\d+)?$",
                 r"^(\d+)([nsew])(\d+)[a-z]?$",

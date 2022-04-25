@@ -10,6 +10,9 @@
 
 ## Version History
 
+### v28.8.4
+- :arrow_up: Upgrade geocoder-abbreviations to 4.6.11 to include new language. Allow Cyrillic characters. 
+
 ### v28.8.3
 - :bug: Update asset upload scripts and remove node-pre-gyp-github
 

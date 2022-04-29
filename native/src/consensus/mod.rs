@@ -68,7 +68,7 @@ pub fn consensus(mut cx: FunctionContext) -> JsResult<JsValue> {
 
                 let arg_val = arg_obj.as_value(&mut cx);
                 neon_serde::from_value(&mut cx, arg_val)
-                    .or_else(|e| cx.throw_error("some error message"))?
+                    .or_else(|e| cx.throw_error(format!("consensus - unable to assign args: {:?}", e)))?
             }
         }
     };
@@ -197,7 +197,7 @@ pub fn consensus(mut cx: FunctionContext) -> JsResult<JsValue> {
     }
 
     Ok(neon_serde::to_value(&mut cx, &agreement)
-        .or_else(|e| cx.throw_error("some error message"))?)
+        .or_else(|e| cx.throw_error(format!("consensus: {:?}", e)))?)
 }
 
 ///

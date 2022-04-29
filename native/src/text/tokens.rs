@@ -257,12 +257,12 @@ pub fn tokenize_name(mut cx: FunctionContext) -> JsResult<JsValue> {
     let name = cx.argument::<JsString>(0)?.value();
     let context = cx.argument::<JsValue>(1)?;
     let context: crate::types::InputContext = neon_serde::from_value(&mut cx, context)
-        .or_else(|e| cx.throw_error("some error message"))?;
+        .or_else(|e| cx.throw_error(format!("text/tokens - unable to assign context: {:?}", e)))?;
     let context = crate::Context::from(context);
     let tokenized = context.tokens.process(&name, &context.country);
 
     Ok(neon_serde::to_value(&mut cx, &tokenized)
-        .or_else(|e| cx.throw_error("some error message"))?)
+        .or_else(|e| cx.throw_error(format!("text/tokens: {:?}", e)))?)
 }
 
 #[cfg(test)]

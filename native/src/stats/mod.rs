@@ -111,7 +111,7 @@ pub fn stats(mut cx: FunctionContext) -> JsResult<JsValue> {
             } else {
                 let arg_val = cx.argument::<JsValue>(0)?;
                 neon_serde::from_value(&mut cx, arg_val)
-                    .or_else(|e| cx.throw_error("some error message"))?
+                    .or_else(|e| cx.throw_error(format!("stats - unable to assign args: {:?}", e)))?
             }
         }
     };
@@ -260,5 +260,5 @@ pub fn stats(mut cx: FunctionContext) -> JsResult<JsValue> {
 
     stats.bounds = boundmap;
 
-    Ok(neon_serde::to_value(&mut cx, &stats).or_else(|e| cx.throw_error("some error message"))?)
+    Ok(neon_serde::to_value(&mut cx, &stats).or_else(|e| cx.throw_error(format!("stats: {:?}", e)))?)
 }

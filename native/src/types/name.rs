@@ -198,7 +198,7 @@ impl Names {
                         || name.display.len() > d.name.display.len()
                     {
                         let priority = d.name.priority;
-                        let freq = d.name.freq;
+                        let freq = d.name.freq + name.freq;
                         d.name = name;
                         d.name.priority = priority;
                         d.name.freq = freq;
@@ -243,18 +243,22 @@ impl Names {
         // XXX TODO ensure primary name is not removed
         // XXX TODO ensure names is not reduced to empty
         let total_freq: i64 = self.names.iter().map(|name| name.freq).sum();
+        let mut temp_names: Vec<Name> = self.names.clone();
         println!("total_freq is {}", total_freq);
         // XXX TODO How to not hardcode this? If a cluster is just 10 addresses, and there's one outlier
         // that's not the name of the road itself, we probably want to filter that out as well
         // Only filter when there are more than 50 addresses in the cluster
-        if (total_freq > 50) {
+        if total_freq > 10 {
             // XXX remove this debug
             //let temp_names = &mut *self.names;
             //temp_names.into_iter().for_each(|name| println!("name.freq is {}, percentage is {:.64}", name.freq, name.freq as f32 / total_freq as f32));
             // XXX TODO choosing to keep names that represent at least 10% of the names on the addresses in the cluster
             // is a random cutoff... but starting with something like this could be a huge improvement
-            self.names
-                .retain(|name| (name.freq as f32 / total_freq as f32) > 0.1);
+            temp_names
+                .retain(|name| (name.freq as f32 / total_freq as f32) > 0.1 && name.source == Some(Source::Address));
+            if temp_names.len() > 0 {
+                self.names = temp_names;
+            }
         }
     }
 

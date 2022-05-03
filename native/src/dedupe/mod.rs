@@ -47,7 +47,8 @@ pub fn dedupe(mut cx: FunctionContext) -> JsResult<JsBoolean> {
                 DedupeArgs::new()
             } else {
                 let arg_val = cx.argument::<JsValue>(0)?;
-                neon_serde::from_value(&mut cx, arg_val)?
+                neon_serde::from_value(&mut cx, arg_val)
+                    .or_else(|e| cx.throw_error(format!("dedupe - unable to assign args: {:?}", e)))?
             }
         }
     };

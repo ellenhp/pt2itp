@@ -54,9 +54,12 @@ test('create index from geojson', (t) => {
 });
 
 test('query from new index', (t) => {
-    exec(`${__dirname}/../node_modules/.bin/carmen --query "5 Greenview Rd" ${carmenIndex} | grep "1.00 5 Greenview Rd" | tr -d '\n'`, (err, res) => {
+    exec(`${__dirname}/../node_modules/.bin/carmen --query "5 Greenview Rd" ${carmenIndex} --geojson | grep -v "No debug"`, (err, res) => {
         t.ifError(err);
-        t.equal(res.split(',')[0], '- 1.00 5 Greenview Rd', 'Finds 5 Greenview Rd');
+        const result = JSON.parse(res);
+        const feature = result.features[0];
+        t.equal(feature.text, 'Greenview Rd', 'Finds 5 Greenview Rd');
+        t.equal(feature.address, '5', 'Finds 5 Greenview Rd');
         t.end();
     });
 });

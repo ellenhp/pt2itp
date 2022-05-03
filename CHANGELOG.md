@@ -10,6 +10,16 @@
 
 ## Version History
 
+### v29.0.0
+- :arrow_up: Upgrade Node 10 to Node 14
+- :arrow_up: Upgrade Carmen to 34.x
+- :arrow_up: Upgrade mbtiles from 0.11 to 0.12
+- :arrow_up: Upgrade neon-cli from 0.3.1 to 0.5.0
+- :arrow_up: Upgrade node-pre-gyp from 0.13 to 1.0
+- :arrow_up: Upgrade pg from 7.3.x to 8.7.x
+- :arrow_up: Upgrade Neon from 0.2 to 0.7
+- :white_check_mark: Update tests
+
 ### v28.8.3
 - :bug: Update asset upload scripts and remove node-pre-gyp-github
 

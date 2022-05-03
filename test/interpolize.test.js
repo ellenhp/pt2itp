@@ -100,7 +100,7 @@ test('ITP Sort', (t) => {
 
         feats.sort(interpolize.itpSort);
 
-        q.equals(feats.map((v) => v.id).join(' '), '1 2 3 4 5');
+        q.equals(feats.map((v) => v.id).join(' '), '1 2 3 5 4');
 
         q.end();
     });
@@ -699,7 +699,7 @@ test('Interpolize - sequence', (t) => {
         [1000, 1140, 3770, 3964, 4152, 4410, 4700, null, 4814, 5216, 5700, 6000, 6414, 7128, 7218, null, 7910, 8442, 8836, 9124, 9608, 10110, 10530, 10968, 11102, 11800, 12200, 12704, 13122, 13530, 14028, 14530, 15114], null
     ], 'lfromhn is as expected');
     t.deepEquals(res.properties['carmen:ltohn'], [
-        [1140, 11736, 3956, 4122, 4360, 4610, 4730, null, 5118, 5620, 5940, 6318, 6624, 7128, 7218, null, 8120, 8722, 9118, 9430, 9906, 10526, 10958, 11026, 11248, 12114, 12224, 13118, 13452, 14006, 14526, 14832, 15114], null
+        [1140, 11736, 3956, 4122, 4360, 4610, 4730, null, 5118, 5620, 5940, 6318, 6624, 7128, 7218, null, 8120, 8718, 9118, 9430, 9906, 10526, 10958, 11026, 11248, 12114, 12224, 13118, 13452, 14006, 14526, 14832, 15126], null
     ], 'ltohn is as expected');
     t.deepEquals(res.properties['carmen:rfromhn'], [
         [11001, 11519, 3809, 3963, 4153, 4409, null, 4721, 4815, 5207, 5709, 6001, 6415, null, 7211, 7713, 7911, 8403, 8721, 9133, 9513, 10117, 10531, 10975, 11101, 11743, 12315, 12701, 13201, 13603, 14021, 14535, 15019], null
@@ -724,7 +724,7 @@ test('Interpolize - add extended ranges', (t) => {
         [7000, 7910, 8442, 8836, null], null
     ], 'lfromhn is as expected');
     t.deepEquals(res.properties['carmen:ltohn'], [
-        [7910, 8120, 8722, 9118, null], null
+        [7910, 8120, 8718, 9118, null], null
     ], 'ltohn is as expected');
     t.deepEquals(res.properties['carmen:parityr'], [
         ['O', 'O', 'O', 'O', 'O'], null

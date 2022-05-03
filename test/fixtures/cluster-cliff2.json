@@ -207,7 +207,7 @@
         },
         "intersections": [],
         "prevDelta": -1,
-        "nextDelta": 7
+        "nextDelta": 6
     },
     {
         "address": [
@@ -246,11 +246,11 @@
         ],
         "number": [
             {
-                "number": 8,
+                "number": 7,
                 "output": true
             },
             {
-                "number": 7,
+                "number": 8,
                 "output": true
             },
             {

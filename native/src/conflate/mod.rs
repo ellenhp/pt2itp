@@ -59,7 +59,8 @@ pub fn conflate(mut cx: FunctionContext) -> JsResult<JsBoolean> {
                 }
 
                 let arg_val = arg_obj.as_value(&mut cx);
-                neon_serde::from_value(&mut cx, arg_val)?
+                neon_serde::from_value(&mut cx, arg_val)
+                    .or_else(|e| cx.throw_error(format!("conflate - unable to assign args: {:?}", e)))?
             }
         }
     };

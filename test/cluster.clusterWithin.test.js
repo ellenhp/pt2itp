@@ -22,8 +22,8 @@ test('Points are clustered on netid', (t) => {
     popQ.defer((done) => {
         pool.query(`
             BEGIN;
-            INSERT INTO address (id, netid, names, number, geom) VALUES (1, 1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point","coordinates": [9.505233764648438,47.13018433161339 ] }'), 4326));
-            INSERT INTO address (id, netid, names, number, geom) VALUES (2, 1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point","coordinates": [9.523429870605469,47.130797460977575 ] }'), 4326));
+            INSERT INTO address (id, netid, names, number, geom) VALUES (1, 1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point","coordinates": [9.505233765,47.130184332 ] }'), 4326));
+            INSERT INTO address (id, netid, names, number, geom) VALUES (2, 1, '[{ "tokenized": [{ "token": "main", "token_type": null }, { "token": "st", "token_type": "Way" }], "display": "Main Street", "priority": 0, "freq": 1 }]', 10, ST_SetSRID(ST_GeomFromGeoJSON('{ "type": "Point","coordinates": [9.523429871,47.130797461 ] }'), 4326));
             COMMIT;
         `, (err) => {
             t.error(err);
@@ -51,7 +51,7 @@ test('Points are clustered on netid', (t) => {
                 address_cluster;
         `, (err, res) => {
             t.error(err);
-            t.deepEquals(res.rows[0].geom, { type: 'MultiPoint', coordinates: [[9.50523376464844,47.1301843316134,1],[9.52342987060547,47.1307974609776,2]] });
+            t.deepEquals(res.rows[0].geom, { type: 'MultiPoint', coordinates: [[9.505233765,47.130184332,1],[9.523429871,47.130797461,2]] });
             t.deepEquals(res.rows[0].names, [{ freq: 2, display: 'Main Street', priority: 0, tokenized: [{ token: 'main', token_type: null }, { token: 'st', token_type: 'Way' }] }]);
 
             pool.end(() => {
@@ -72,8 +72,8 @@ test('LineStrings far away should not be clustered', (t) => {
     popQ.defer((done) => {
         pool.query(`
             BEGIN;
-            INSERT INTO network (id, names, geom) VALUES (1, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.50514793395996,47.13027192195532],[9.50094223022461,47.13027192195532]]]}'), 4326));
-            INSERT INTO network (id, names, geom) VALUES (2, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.523429870605469,47.1308412556617],[9.527077674865723,47.13091424672175]]]}'), 4326));
+            INSERT INTO network (id, names, geom) VALUES (1, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.505147934,47.130271922],[9.500942230,47.130271922]]]}'), 4326));
+            INSERT INTO network (id, names, geom) VALUES (2, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.523429871,47.130841256],[9.527077675,47.130914247]]]}'), 4326));
             COMMIT;
         `, (err) => {
             t.error(err);
@@ -103,10 +103,10 @@ test('LineStrings far away should not be clustered', (t) => {
                 id
         `, (err, res) => {
             t.error(err);
-            t.deepEquals(res.rows[0].geom, { type: 'MultiLineString', coordinates: [[[9.50514793395996, 47.1302719219553], [9.50094223022461, 47.1302719219553]]] });
+            t.deepEquals(res.rows[0].geom, { type: 'MultiLineString', coordinates: [[[9.505147934, 47.130271922], [9.500942230, 47.130271922]]] });
             t.deepEquals(res.rows[0].names, [{ freq: 1, display: 'Main Street', tokenized: 'main st', tokeneless: 'main' }]);
 
-            t.deepEquals(res.rows[1].geom, { type: 'MultiLineString', coordinates: [[[9.52342987060547, 47.1308412556617], [9.52707767486572, 47.1309142467218]]] });
+            t.deepEquals(res.rows[1].geom, { type: 'MultiLineString', coordinates: [[[9.523429871, 47.130841256], [9.527077675, 47.130914247]]] });
             t.deepEquals(res.rows[1].names, [{ freq: 1, display: 'Main Street', tokenized: 'main st', tokeneless: 'main' }]);
 
             pool.end(() => {
@@ -126,8 +126,8 @@ test('LinesStrings should be clustered', (t) => {
     popQ.defer((done) => {
         pool.query(`
             BEGIN;
-            INSERT INTO network (id, names, geom) VALUES (1, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString","coordinates": [[[9.516735076904297,47.13276818606133],[9.519824981689451,47.132870369814995]]]}'), 4326));
-            INSERT INTO network (id, names, geom) VALUES (2, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.513999223709106,47.132695197545665],[9.512518644332886,47.132695197545665]]]},'), 4326));
+            INSERT INTO network (id, names, geom) VALUES (1, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString","coordinates": [[[9.516735077,47.132768186],[9.519824982,47.132870370]]]}'), 4326));
+            INSERT INTO network (id, names, geom) VALUES (2, '[{ "tokenized": "main st", "tokeneless": "main", "display": "Main Street", "freq": 1 }]', ST_SetSRID(ST_GeomFromGeoJSON('{"type": "MultiLineString", "coordinates": [[[9.513999224,47.132695198],[9.512518644,47.132695198]]]},'), 4326));
             COMMIT;
         `, (err) => {
             t.error(err);
@@ -157,7 +157,7 @@ test('LinesStrings should be clustered', (t) => {
         `, (err, res) => {
             t.error(err);
 
-            t.deepEquals(res.rows[0].geom, { type: 'MultiLineString', coordinates: [[[9.5167350769043, 47.1327681860613], [9.51982498168945, 47.132870369815]], [[9.51399922370911, 47.1326951975457], [9.51251864433289, 47.1326951975457]]] });
+            t.deepEquals(res.rows[0].geom, { type: 'MultiLineString', coordinates: [[[9.516735077, 47.132768186], [9.519824982, 47.132870370]], [[9.513999224, 47.132695198], [9.512518644, 47.132695198]]] });
             t.deepEquals(res.rows[0].names, [{ freq: 1, display: 'Main Street', tokenized: 'main st', tokeneless: 'main' }]);
             pool.end(() => {
                 t.end();

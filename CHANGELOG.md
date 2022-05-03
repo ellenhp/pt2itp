@@ -10,6 +10,9 @@
 
 ## Version History
 
+### v29.0.1
+- :white_check_mark: Fix cargofmt check
+
 ### v29.0.0
 - :arrow_up: Upgrade Node 10 to Node 14
 - :arrow_up: Upgrade Carmen to 34.x

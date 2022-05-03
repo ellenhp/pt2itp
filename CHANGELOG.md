@@ -17,6 +17,7 @@
 - :arrow_up: Upgrade neon-cli from 0.3.1 to 0.5.0
 - :arrow_up: Upgrade node-pre-gyp from 0.13 to 1.0
 - :arrow_up: Upgrade pg from 7.3.x to 8.7.x
+- :arrow_up: Upgrade Neon from 0.2 to 0.7
 - :white_check_mark: Update tests
 
 ### v28.8.3

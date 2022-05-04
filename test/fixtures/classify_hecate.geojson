@@ -1,9 +1,9 @@
-{ "id": 1, "type": "Feature", "properties": { "number": 1, "street": "Main St", "accuracy": "parcel", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.37662571668625, 38.834171065744464 ] } }
-{ "id": 2, "type": "Feature", "properties": { "number": 2, "street": "Main St", "accuracy": "rooftop", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.3769958615303, 38.83415435098578 ] } }
-{ "id": 3, "type": "Feature", "properties": { "number": 3, "street": "Main St", "accuracy": "point", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.37704145908356, 38.83394959487351 ] } }
-{ "id": 4, "type": "Feature", "properties": { "number": 4, "street": "Main St", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.37687784433365, 38.83444894803227 ] } }
-{ "id": 5, "type": "Feature", "properties": { "number": 5, "street": "Main St", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.37685638666153, 38.83437791055815 ] } }
-{ "id": 6, "type": "Feature", "properties": { "number": 6, "street": "Main St", "accuracy": "parcel", "expected": "parcel" }, "geometry": { "type": "Point", "coordinates": [ -79.37747597694396, 38.834173155089026 ] } }
-{ "id": 7, "type": "Feature", "properties": { "number": 7, "street": "Main St", "expected": "parcel" }, "geometry": { "type": "Point", "coordinates": [ -79.37653049826622, 38.83364977154083 ] } }
-{ "id": 8, "type": "Feature", "properties": { "number": 8, "street": "Main St", "accuracy": "rooftop", "expected": "point" }, "geometry": { "type": "Point", "coordinates": [ -79.4051456451416, 38.83910592657033] } }
-{ "id": 9, "type": "Feature", "properties": { "number": 9, "street": "Main St", "expected": "point" }, "geometry": { "type": "Point", "coordinates": [ -79.40548896789551, 38.83442596532783 ] } }
+{ "id": 1, "type": "Feature", "properties": { "number": 1, "street": "Main St", "accuracy": "parcel", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.376625717, 38.834171066 ] } }
+{ "id": 2, "type": "Feature", "properties": { "number": 2, "street": "Main St", "accuracy": "rooftop", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.376995862, 38.834154351 ] } }
+{ "id": 3, "type": "Feature", "properties": { "number": 3, "street": "Main St", "accuracy": "point", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.377041459, 38.833949595 ] } }
+{ "id": 4, "type": "Feature", "properties": { "number": 4, "street": "Main St", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.376877844, 38.834448948 ] } }
+{ "id": 5, "type": "Feature", "properties": { "number": 5, "street": "Main St", "expected": "rooftop" }, "geometry": { "type": "Point", "coordinates": [ -79.376856387, 38.834377911 ] } }
+{ "id": 6, "type": "Feature", "properties": { "number": 6, "street": "Main St", "accuracy": "parcel", "expected": "parcel" }, "geometry": { "type": "Point", "coordinates": [ -79.377475977, 38.834173155 ] } }
+{ "id": 7, "type": "Feature", "properties": { "number": 7, "street": "Main St", "expected": "parcel" }, "geometry": { "type": "Point", "coordinates": [ -79.376530498, 38.833649772 ] } }
+{ "id": 8, "type": "Feature", "properties": { "number": 8, "street": "Main St", "accuracy": "rooftop", "expected": "point" }, "geometry": { "type": "Point", "coordinates": [ -79.405145645, 38.839105927] } }
+{ "id": 9, "type": "Feature", "properties": { "number": 9, "street": "Main St", "expected": "point" }, "geometry": { "type": "Point", "coordinates": [ -79.405488968, 38.834425965 ] } }

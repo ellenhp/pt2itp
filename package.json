@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/pt2itp",
-  "version": "28.8.4dev2",
+  "version": "29.0.2",
   "license": "BSD-2-Clause ",
   "description": "Attach interpolation values given a road network and address points",
   "main": "index.js",
@@ -30,11 +30,11 @@
   },
   "author": "Nicholas Ingalls <nicholas.ingalls@gmail.com>",
   "dependencies": {
-    "@mapbox/carmen": "27.2.0",
+    "@mapbox/carmen": "34.1.4",
     "@mapbox/eslint-config-geocoding": "^2.0.2",
     "@mapbox/geocoder-abbreviations": "4.6.11dev2",
     "@mapbox/geojson-area": "^0.2.2",
-    "@mapbox/mbtiles": "^0.11.0",
+    "@mapbox/mbtiles": "^0.12.0",
     "@mapbox/tile-cover": "^3.0.2",
     "@mapbox/tilebelt": "^1.0.1",
     "@turf/turf": "^5.1.0",
@@ -47,9 +47,9 @@
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "n-readlines": "^1.0.0",
-    "neon-cli": "0.3.1",
-    "node-pre-gyp": "~0.13.0",
-    "pg": "^7.3.0",
+    "neon-cli": "0.5.0",
+    "@mapbox/node-pre-gyp": "^1.0.0",
+    "pg": "^8.7.0",
     "pg-copy-streams": "^2.1.0",
     "pg-cursor": "^2.0.0",
     "pluralize": "^8.0.0",
@@ -75,7 +75,7 @@
     "extends": "@mapbox/eslint-config-geocoding"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 14"
   },
   "repository": {
     "type": "git",

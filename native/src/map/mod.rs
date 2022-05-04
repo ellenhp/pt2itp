@@ -113,7 +113,9 @@ pub fn import_addr(mut cx: FunctionContext) -> JsResult<JsBoolean> {
                 MapArgs::new()
             } else {
                 let arg_val = cx.argument::<JsValue>(0)?;
-                neon_serde::from_value(&mut cx, arg_val)?
+                neon_serde::from_value(&mut cx, arg_val).or_else(|e| {
+                    cx.throw_error(format!("import_addr - unable to assign args: {:?}", e))
+                })?
             }
         }
     };
@@ -160,7 +162,9 @@ pub fn import_net(mut cx: FunctionContext) -> JsResult<JsBoolean> {
                 MapArgs::new()
             } else {
                 let arg_val = cx.argument::<JsValue>(0)?;
-                neon_serde::from_value(&mut cx, arg_val)?
+                neon_serde::from_value(&mut cx, arg_val).or_else(|e| {
+                    cx.throw_error(format!("import_net - unable to assign args: {:?}", e))
+                })?
             }
         }
     };
@@ -497,7 +501,9 @@ pub fn dedupe_syn(mut cx: FunctionContext) -> JsResult<JsArray> {
                 Vec::new()
             } else {
                 let arg_val = cx.argument::<JsValue>(0)?;
-                neon_serde::from_value(&mut cx, arg_val)?
+                neon_serde::from_value(&mut cx, arg_val).or_else(|e| {
+                    cx.throw_error(format!("dedupe_syn - unable to assign args: {:?}", e))
+                })?
             }
         }
     };

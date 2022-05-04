@@ -89,7 +89,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.3766257166862, 38.8341710657445]
+            coordinates: [-79.376625717, 38.834171066]
         }
     });
 
@@ -108,7 +108,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.3770414590836, 38.8339495948735]
+            coordinates: [-79.377041459, 38.833949595]
         }
     });
 
@@ -125,7 +125,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.3768778443336, 38.8344489480323]
+            coordinates: [-79.376877844, 38.834448948]
         }
     });
 
@@ -142,7 +142,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.3768563866615, 38.8343779105582]
+            coordinates: [-79.376856387, 38.834377911]
         }
     });
 
@@ -161,7 +161,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.3765304982662, 38.8336497715408]
+            coordinates: [-79.376530498, 38.833649772]
         }
     });
 
@@ -178,7 +178,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.4051456451416, 38.8391059265703]
+            coordinates: [-79.405145645, 38.839105927]
         }
     });
 
@@ -195,7 +195,7 @@ test('classify (hecate)', (t) => {
         },
         geometry: {
             type: 'Point',
-            coordinates: [-79.4054889678955, 38.8344259653278]
+            coordinates: [-79.405488968, 38.834425965]
         }
     });
 

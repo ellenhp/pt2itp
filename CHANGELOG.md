@@ -10,6 +10,10 @@
 
 ## Version History
 
+### v29.1.0-dev
+
+- :tada: filter outlier address cluster names based on name prevalence within address cluster
+
 ### v29.0.2
 - :arrow_up: Upgrade geocoder-abbreviations to 4.6.11 to include new language. Allow Cyrillic characters. 
 

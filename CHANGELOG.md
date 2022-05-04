@@ -10,6 +10,9 @@
 
 ## Version History
 
+### v29.0.2
+- :arrow_up: Upgrade geocoder-abbreviations to 4.6.11 to include new language. Allow Cyrillic characters. 
+
 ### v29.0.1
 - :white_check_mark: Fix cargofmt check
 

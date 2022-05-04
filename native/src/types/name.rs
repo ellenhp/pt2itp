@@ -254,8 +254,9 @@ impl Names {
             //temp_names.into_iter().for_each(|name| println!("name.freq is {}, percentage is {:.64}", name.freq, name.freq as f32 / total_freq as f32));
             // XXX TODO choosing to keep names that represent at least 10% of the names on the addresses in the cluster
             // is a random cutoff... but starting with something like this could be a huge improvement
-            temp_names
-                .retain(|name| (name.freq as f32 / total_freq as f32) > 0.1 && name.source == Some(Source::Address));
+            temp_names.retain(|name| {
+                (name.freq as f32 / total_freq as f32) > 0.1 && name.source == Some(Source::Address)
+            });
             if temp_names.len() > 0 {
                 self.names = temp_names;
             }

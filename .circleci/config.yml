@@ -73,12 +73,6 @@ jobs:
 
 workflows:
     version: 2
-    build:
-        jobs:
-            - build:
-                filters:
-                    tags:
-                        only: /.*/             
     build-mac:
         jobs:
             - build-mac:

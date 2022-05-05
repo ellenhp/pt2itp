@@ -16,6 +16,7 @@ jobs:
             - run:
                 name: "check node location"
                 command: which node
+            - checkout
             - run:
                 name: "Download Rust"
                 command: curl https://sh.rustup.rs -sSf > /tmp/rustup.sh

@@ -9,7 +9,6 @@ jobs:
             xcode: 12.2
         steps:
             - node/install:
-                install-yarn: true
                 node-version: "14.19.1"
             - run:
                 name: "check node version"
@@ -18,8 +17,23 @@ jobs:
                 name: "check node location"
                 command: which node
             - run:
-                name: "yarn build and install"
-                command: yarn build && yarn install
+                name: "Download Rust"
+                command: curl https://sh.rustup.rs -sSf > /tmp/rustup.sh
+            - run:
+                name: "Install Rust"
+                command: sh /tmp/rustup.sh -y
+            - run:
+                name: "Setup path"
+                command: export PATH="$HOME/.cargo/bin:$PATH"
+            - run:
+                name: "Source environment"
+                command: source "$HOME/.cargo/env"
+            - run:
+                name: "Install Rust"
+                command: sh /tmp/rustup.sh -y
+            - run:
+                name: "yarn install"
+                command: yarn install --ignore-scripts
     build:
         docker:
             - image: cimg/node:14.19.1

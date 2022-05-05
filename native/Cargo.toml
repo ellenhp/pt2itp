@@ -7,7 +7,7 @@ build = "build.rs"
 
 [lib]
 name = "pt2itp"
-crate-type = ["dylib"]
+crate-type = ["cdylib"]
 
 [build-dependencies]
 neon-build = "0.7.1"

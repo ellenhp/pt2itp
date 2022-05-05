@@ -1,6 +1,13 @@
 version: 2
 
 jobs:
+    build-mac:
+        macos:
+            xcode: 12.2
+            steps:
+                - run:
+                    name: "foo"
+                    command: node -v && which node
     build:
         docker:
             - image: cimg/node:14.19.1

@@ -41,6 +41,9 @@ jobs:
             - run:
                 name: "Neon build"
                 command: neon build --release
+            - run:
+                name: "Yarn test"
+                command: yarn test
     build:
         docker:
             - image: cimg/node:14.19.1

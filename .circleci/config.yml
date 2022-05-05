@@ -4,13 +4,13 @@ jobs:
     build-mac:
         macos:
             xcode: 12.2
-            steps:
-                - run:
-                    name: "check node version"
-                    command: node -v
-                - run:
-                    name: "check node location"
-                    command: which node
+        steps:
+            - run:
+                name: "check node version"
+                command: node -v
+            - run:
+                name: "check node location"
+                command: which node
     build:
         docker:
             - image: cimg/node:14.19.1

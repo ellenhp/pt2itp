@@ -5,6 +5,8 @@ jobs:
         macos:
             xcode: 12.2
         steps:
+            - node/install:
+                node-version: "14.19.1"
             - run:
                 name: "check node version"
                 command: node -v

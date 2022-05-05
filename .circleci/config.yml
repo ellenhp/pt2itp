@@ -79,3 +79,9 @@ workflows:
                 filters:
                     tags:
                         only: /.*/             
+    build-mac:
+        jobs:
+            - build-mac:
+                filters:
+                    tags:
+                        only: /.*/             

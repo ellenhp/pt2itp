@@ -229,4 +229,4 @@ To run a specific Cargo test:
 npm run cargo_individual --my_test=<path_to_test>
 ```
 
-- This will run only the test you specify (ie. `npm run cargo_one --my_test=util::linker::tests::test_be_linker`), as well as print any print statements you have added throughout your code.
+- This will run only the test you specify (ie. `npm run cargo_individual --my_test=util::linker::tests::test_be_linker`), as well as print any print statements you have added throughout your code.

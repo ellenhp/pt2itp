@@ -9,6 +9,7 @@ jobs:
             xcode: 12.2
         steps:
             - node/install:
+                install-yarn: true
                 node-version: "14.19.1"
             - run:
                 name: "check node version"
@@ -16,6 +17,9 @@ jobs:
             - run:
                 name: "check node location"
                 command: which node
+            - run:
+                name: "yarn build and install"
+                command: yarn build && yarn install
     build:
         docker:
             - image: cimg/node:14.19.1

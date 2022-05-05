@@ -6,7 +6,7 @@ orbs:
 jobs:
     build-mac:
         macos:
-            xcode: 12.2
+            xcode: 12.5.1
         steps:
             - node/install:
                 node-version: "14.19.1"

@@ -35,9 +35,6 @@ jobs:
                 name: "Install Neon"
                 command: "yarn global add neon-cli@0.7.1"
             - run:
-                name: "Neon clean"
-                command: neon clean
-            - run:
                 name: "Neon build"
                 command: neon build --release
     build:

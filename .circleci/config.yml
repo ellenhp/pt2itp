@@ -18,6 +18,9 @@ jobs:
                 command: which node
             - checkout
             - run:
+                name: "install mbx-ci"
+                command: "curl -Ls https://mapbox-release-engineering.s3.amazonaws.com/mbx-ci/latest/mbx-ci-linux-amd64 > mbx-ci && chmod 755 ./mbx-ci"
+            - run:
                 name: "Install postgres"
                 command: brew install postgres
             - run:
@@ -54,8 +57,24 @@ jobs:
                 name: "Neon build"
                 command: neon build --release
             - run:
-                name: "Yarn test"
-                command: yarn test
+                name: "Cargo Test"
+                command: cd native/ && cargo test --release
+            - run:
+                name: "Cargo Format"
+                command: rustup component add rustfmt && cd native/ && cargo fmt -- --check
+            - run:
+                name: "Yarn Lint"
+                command: "yarn run lint"
+            - run:
+                name: "Yarn PreTest"
+                command: "yarn run pretest"
+            - run:
+                name: "Yarn Coverage"
+                command: "yarn run coverage"
+                no_output_timeout: "12m"
+            - run:
+                name: "Yarn Coverage-Upload"
+                command: "yarn run coverage-upload"
     build:
         docker:
             - image: cimg/node:14.19.1

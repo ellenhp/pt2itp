@@ -10,9 +10,8 @@
 
 ## Version History
 
-### v29.0.3-dev4
-
-- :tada: Build MacOS binary
+### v29.0.3
+- :tada: Build and release MacOS binary on CircleCI
 
 ### v29.0.2
 - :arrow_up: Upgrade geocoder-abbreviations to 4.6.11 to include new language. Allow Cyrillic characters. 

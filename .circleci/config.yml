@@ -5,7 +5,7 @@ orbs:
 
 jobs:
     build-mac:
-        resource_class: xlarge
+        resource_class: large
         macos:
             xcode: 12.5.1
         environment:

@@ -18,6 +18,18 @@ jobs:
                 command: which node
             - checkout
             - run:
+                name: "Install postgres"
+                command: brew install postgres
+            - run:
+                name: "Install postgis"
+                command: brew install postgis
+            - run:
+                name: "Start postgres"
+                command: pg_ctl -D /usr/local/var/postgres start
+            - run:
+                name: "Create postgres user"
+                command: /usr/local/opt/postgres/bin/createuser -s postgres
+            - run:
                 name: "Download Rust"
                 command: curl https://sh.rustup.rs -sSf > /tmp/rustup.sh
             - run:

@@ -7,6 +7,8 @@ jobs:
     build-mac:
         macos:
             xcode: 12.5.1
+        environment:
+          MBX_CI_DOMAIN: o619qyc20d.execute-api.us-east-1.amazonaws.com
         steps:
             - node/install:
                 node-version: "14.19.1"
@@ -56,25 +58,6 @@ jobs:
             - run:
                 name: "Neon build"
                 command: neon build --release
-            - run:
-                name: "Cargo Test"
-                command: cd native/ && cargo test --release
-            - run:
-                name: "Cargo Format"
-                command: rustup component add rustfmt && cd native/ && cargo fmt -- --check
-            - run:
-                name: "Yarn Lint"
-                command: "yarn run lint"
-            - run:
-                name: "Yarn PreTest"
-                command: "yarn run pretest"
-            - run:
-                name: "Yarn Coverage"
-                command: "yarn run coverage"
-                no_output_timeout: "12m"
-            - run:
-                name: "Yarn Coverage-Upload"
-                command: "yarn run coverage-upload"
             - run:
                 name: "Publish Release"
                 command: ./scripts/publish.sh

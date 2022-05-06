@@ -10,7 +10,7 @@
 
 ## Version History
 
-### v29.0.3-dev1
+### v29.0.3-dev2
 
 - :tada: Build MacOS binary
 

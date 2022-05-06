@@ -3,7 +3,7 @@
 set -eu
 
 token="$NODE_PRE_GYP_GITHUB_TOKEN"
-platform=$(uname)
+platform=$(uname | tr '[:upper:]' '[:lower:]')
 
 # https://gist.github.com/stefanbuck/ce788fee19ab6eb0b4447a85fc99f447
 GH_API="https://api.github.com"
@@ -13,7 +13,7 @@ tag="$CIRCLE_TAG"
 GH_REPO="$GH_API/repos/$owner/$repo"
 GH_TAGS="$GH_REPO/releases/tags/$tag"
 AUTH="Authorization: token $token"
-file_path="build/stage/$tag/node-v83-${platform,,}-x64.tar.gz"
+file_path="build/stage/$tag/node-v83-$platform-x64.tar.gz"
 
 function generate_post_data()
 {

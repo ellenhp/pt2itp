@@ -71,7 +71,6 @@ impl Names {
         names.empty();
         names.sort();
         names.dedupe();
-        //names.filter_outliers();
 
         names
     }
@@ -632,7 +631,7 @@ mod tests {
         names.dedupe();
         let names_deduped = Names {
             names: vec![
-                Name::new(String::from("highway 3"), -1, None, &context).set_freq(1),
+                Name::new(String::from("highway 3"), -1, None, &context).set_freq(2),
                 Name::new(String::from("hwy 2"), -1, None, &context).set_freq(1),
                 Name::new(String::from("hwy 1"), -1, None, &context),
             ],
@@ -683,7 +682,8 @@ mod tests {
                 0,
                 Some(Source::Generated),
                 &context,
-            )],
+            )
+            .set_freq(2)],
         };
         assert_eq!(names, names_deduped);
     }
@@ -888,8 +888,8 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main Street"), 0, None, &context),
-                    Name::new(String::from("East Main Street"), 0, None, &context)
+                    Name::new(String::from("Main Street"), 0, None, &context).set_freq(2),
+                    Name::new(String::from("East Main Street"), 0, None, &context).set_freq(2)
                 ]
             }
         );
@@ -907,8 +907,8 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main Street"), 1, None, &context),
-                    Name::new(String::from("East Main Street"), 1, None, &context)
+                    Name::new(String::from("Main Street"), 1, None, &context).set_freq(2),
+                    Name::new(String::from("East Main Street"), 1, None, &context).set_freq(2)
                 ]
             }
         );
@@ -972,32 +972,38 @@ mod tests {
             ),
             Names {
                 names: vec![
-                    Name::new(String::from("Main St"), 0, Some(Source::Network), &context),
+                    Name::new(String::from("Main St"), 0, Some(Source::Network), &context)
+                        .set_freq(1),
                     Name::new(
                         String::from("US Route 1"),
                         -1,
                         Some(Source::Generated),
                         &context
-                    ),
-                    Name::new(String::from("US 1"), -2, Some(Source::Generated), &context),
+                    )
+                    .set_freq(2),
+                    Name::new(String::from("US 1"), -2, Some(Source::Generated), &context)
+                        .set_freq(1),
                     Name::new(
                         String::from("US Highway 1"),
                         -2,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(1),
                     Name::new(
                         String::from("United States Route 1"),
                         -2,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(1),
                     Name::new(
                         String::from("United States Highway 1"),
                         -2,
                         Some(Source::Generated),
                         &context
                     )
+                    .set_freq(1)
                 ]
             }
         );
@@ -1036,13 +1042,15 @@ mod tests {
                         0,
                         Some(Source::Address),
                         &context
-                    ),
+                    )
+                    .set_freq(2),
                     Name::new(
                         String::from("US Highway 1"),
                         -1,
                         Some(Source::Generated),
                         &context
-                    ),
+                    )
+                    .set_freq(2),
                     Name::new(
                         String::from("US Route 1"),
                         -1,
@@ -1127,7 +1135,7 @@ mod tests {
                         &context
                     )
                     .set_freq(2),
-                    Name::new("NE MLK", -1, Some(Source::Generated), &context),
+                    Name::new("NE MLK", -1, Some(Source::Generated), &context).set_freq(2),
                     Name::new("Or 99e", -1, Some(Source::Network), &context),
                     Name::new("State Highway 99e", -1, Some(Source::Network), &context),
                     Name::new(

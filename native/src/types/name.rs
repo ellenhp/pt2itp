@@ -240,13 +240,15 @@ impl Names {
     ///
     pub fn filter_outliers(&mut self) {
         let total_freq: i64 = self.names.iter().map(|name| name.freq).sum();
-        let mut temp_names: Vec<Name> = self.names.clone();
         // Only filter when there are more than 10 addresses in the cluster
         if total_freq > 10 {
+            let mut temp_names: Vec<Name> = self.names.clone();
             // Remove names that represent less than 10% of names in the cluster
             // and only if their source is from an address point
             temp_names.retain(|name| {
-                (name.freq as f32 / total_freq as f32) > 0.1 && name.source == Some(Source::Address)
+                name.source != Some(Source::Address)
+                    || (name.freq as f32 / total_freq as f32) > 0.1
+                        && name.source == Some(Source::Address)
             });
             if temp_names.len() > 0 {
                 self.names = temp_names;
@@ -678,6 +680,78 @@ mod tests {
             .set_freq(2)],
         };
         assert_eq!(names, names_deduped);
+    }
+
+    #[test]
+    fn test_names_filter_outliers() {
+        let mut context = Context::new(
+            String::from("us"),
+            None,
+            Tokens::generate(vec![String::from("en")]),
+        );
+
+        // Name not filtered if source is not Address
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
+            ],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
+
+        // Name is filtered if source is Address and prevalence is < .1
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(11)],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
+
+        // Name is filtered if source is Address and prevalence is < .1
+        let mut names_pre_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(2),
+            ],
+        };
+        let names_post_filter_outliers = Names {
+            names: vec![
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(2),
+            ],
+        };
+        names_pre_filter_outliers.filter_outliers();
+        assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
     }
 
     #[test]

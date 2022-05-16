@@ -201,6 +201,9 @@ impl Names {
                         d.name = name;
                         d.name.priority = priority;
                         d.name.freq = freq;
+                    } else {
+                        // Keep track of frequency
+                        d.name.freq = d.name.freq + name.freq;
                     }
                 }
                 // if it doesn't yet exist, add it
@@ -626,8 +629,8 @@ mod tests {
         let names_deduped = Names {
             names: vec![
                 Name::new(String::from("highway 3"), -1, None, &context).set_freq(2),
-                Name::new(String::from("hwy 2"), -1, None, &context).set_freq(1),
-                Name::new(String::from("hwy 1"), -1, None, &context),
+                Name::new(String::from("hwy 2"), -1, None, &context).set_freq(3),
+                Name::new(String::from("hwy 1"), -1, None, &context).set_freq(2),
             ],
         };
         assert_eq!(names, names_deduped);
@@ -677,7 +680,68 @@ mod tests {
                 Some(Source::Generated),
                 &context,
             )
-            .set_freq(2)],
+            .set_freq(3)],
+        };
+        assert_eq!(names, names_deduped);
+
+        // Name not filtered if source is not Address
+        let mut names = Names {
+            names: vec![
+                Name::new(
+                    String::from("East Hackberry Drive"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                )
+                .set_freq(21),
+                Name::new(
+                    String::from("E Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(20),
+                Name::new(
+                    String::from("W Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+                Name::new(
+                    String::from("Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
+        };
+        names.dedupe();
+        let names_deduped = Names {
+            names: vec![
+                Name::new(
+                    String::from("East Hackberry Drive"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                )
+                .set_freq(41),
+                Name::new(
+                    String::from("W Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+                Name::new(
+                    String::from("Hackberry Dr"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(1),
+            ],
         };
         assert_eq!(names, names_deduped);
     }
@@ -805,6 +869,17 @@ mod tests {
         assert_eq!(
             Names::from_value(Some(json!("Main St NE")), Some(Source::Address), &context).unwrap(),
             expected
+        );
+
+        let expected = Names::new(
+            vec![Name::new(
+                String::from("Main St NE"),
+                -1,
+                Some(Source::Address),
+                &context,
+            )
+            .set_freq(2)],
+            &context,
         );
 
         assert_eq!(
@@ -937,7 +1012,7 @@ mod tests {
                 &context
             ),
             Names {
-                names: vec![Name::new(String::from("Main Street"), 0, None, &context)]
+                names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(2)]
             }
         );
 
@@ -1116,7 +1191,7 @@ mod tests {
                         Some(Source::Generated),
                         &context
                     )
-                    .set_freq(2),
+                    .set_freq(3),
                     Name::new(
                         String::from("US Route 1"),
                         -1,
@@ -1191,7 +1266,7 @@ mod tests {
                         &context
                     ),
                     Name::new("NE M L King Blvd", -1, Some(Source::Address), &context)
-                        .set_freq(1480),
+                        .set_freq(1498),
                     Name::new("SE M L King Blvd", -1, Some(Source::Address), &context).set_freq(7),
                     Name::new("N M L King Blvd", -1, Some(Source::Address), &context).set_freq(3),
                     Name::new(

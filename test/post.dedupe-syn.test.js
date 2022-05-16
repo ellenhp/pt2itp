@@ -119,7 +119,7 @@ tape('dedupe feature names', (t) => {
             { freq: 20, source: 'Network', display: 'East Hackberry Drive', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
             { freq: 20, source: 'Address', display: 'E Hackberry Dr', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
             { freq: 1, source: 'Address', display: 'W Hackberry Dr', priority: 0, tokenized: [{ token: 'w', 'token_type': 'Cardinal' }, { token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
-            { freq: 1, source: 'Address', display: 'Hackberry Dr', priority: 0, tokenized: [{ token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] },
+            { freq: 1, source: 'Address', display: 'Hackberry Dr', priority: 0, tokenized: [{ token: 'hackberry', 'token_type': null }, { token: 'dr', 'token_type': 'Way' }] }
         ]),
         ['East Hackberry Drive']
     );

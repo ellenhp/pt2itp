@@ -96,7 +96,7 @@ tape('dedupe feature names', (t) => {
 
     t.deepEqual(
         dedupe_syn([
-            { freq: 20, source: 'Address', display: 'Main St', priority: 1, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
+            { freq: 25, source: 'Address', display: 'Main St', priority: 1, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
             { freq: 1, source: 'Address', display: 'Main Street', priority: 0, tokenized: [{ token: 'main', 'token_type': null }, { token: 'st', 'token_type': 'Way' }] },
             { freq: 1, source: 'Address', display: 'E Main Av', priority: 1, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] },
             { freq: 1, source: 'Address', display: 'East Main Avenue', priority: 0, tokenized: [{ token: 'e', 'token_type': 'Cardinal' }, { token: 'main', 'token_type': null }, { token: 'av', 'token_type': 'Way' }] }

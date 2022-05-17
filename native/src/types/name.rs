@@ -250,7 +250,7 @@ impl Names {
             // and only if their source is from an address point
             temp_names.retain(|name| {
                 name.source != Some(Source::Address)
-                    || (name.freq as f32 / total_freq as f32) > 0.1
+                    || (name.freq as f32 / total_freq as f32) > 0.08
                         && name.source == Some(Source::Address)
             });
             if temp_names.len() > 0 {

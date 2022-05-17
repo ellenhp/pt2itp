@@ -757,23 +757,23 @@ mod tests {
         // Name not filtered if source is not Address
         let mut names_pre_filter_outliers = Names {
             names: vec![
-                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
                 Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
             ],
         };
         let names_post_filter_outliers = Names {
             names: vec![
-                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
                 Name::new(String::from("East Main Street"), 0, None, &context).set_freq(1),
             ],
         };
         names_pre_filter_outliers.filter_outliers();
         assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
 
-        // Name is filtered if source is Address and prevalence is < .1
+        // Name is filtered if source is Address and prevalence is < .08
         let mut names_pre_filter_outliers = Names {
             names: vec![
-                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
                 Name::new(
                     String::from("East Main Street"),
                     0,
@@ -784,34 +784,34 @@ mod tests {
             ],
         };
         let names_post_filter_outliers = Names {
-            names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(11)],
+            names: vec![Name::new(String::from("Main Street"), 0, None, &context).set_freq(12)],
         };
         names_pre_filter_outliers.filter_outliers();
         assert_eq!(names_pre_filter_outliers, names_post_filter_outliers);
 
-        // Name is filtered if source is Address and prevalence is < .1
+        // Name is not filtered if source is Address and prevalence is > .08
         let mut names_pre_filter_outliers = Names {
             names: vec![
-                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
                 Name::new(
                     String::from("East Main Street"),
                     0,
                     Some(Source::Address),
                     &context,
                 )
-                .set_freq(2),
+                .set_freq(3),
             ],
         };
         let names_post_filter_outliers = Names {
             names: vec![
-                Name::new(String::from("Main Street"), 0, None, &context).set_freq(11),
+                Name::new(String::from("Main Street"), 0, None, &context).set_freq(12),
                 Name::new(
                     String::from("East Main Street"),
                     0,
                     Some(Source::Address),
                     &context,
                 )
-                .set_freq(2),
+                .set_freq(3),
             ],
         };
         names_pre_filter_outliers.filter_outliers();

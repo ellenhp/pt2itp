@@ -1,5 +1,6 @@
 use crate::text::titlecase;
 use crate::Tokenized;
+use crate::Tokens;
 use crate::{text, Context};
 use geocoder_abbreviations::TokenType;
 use std::collections::HashMap;
@@ -256,6 +257,42 @@ impl Names {
             if temp_names.len() > 0 {
                 self.names = temp_names;
             }
+        }
+    }
+
+    ///
+    /// Detect when network name mismatches majority address name
+    ///
+    pub fn detect_conflicting_network(&mut self) {
+        let total_freq: i64 = self.names.iter().map(|name| name.freq).sum();
+        // Get all network source names
+        let mut network_names: Vec<Name> = self.names.clone();
+        network_names.retain(|name| name.source == Some(Source::Network));
+
+        // Get all address source names
+        let mut address_names: Vec<Name> = self.names.clone();
+        address_names.retain(|name| name.source == Some(Source::Address));
+
+        // Names were already sorted, so get the first from both lists
+        let first_name_network: Name = network_names.clone().into_iter().nth(0).unwrap();
+        let first_name_address: Name = address_names.clone().into_iter().nth(0).unwrap();
+
+        if total_freq > 10
+            && (first_name_address.freq as f32 / total_freq as f32) > 0.08
+            && first_name_network.tokenless_string() != first_name_address.tokenless_string()
+        {
+            let context = Context::new(
+                String::from("us"),
+                None,
+                Tokens::new(HashMap::new(), HashMap::new(), HashMap::new()),
+            );
+            let disagree = Name::new(
+                String::from("NETWORK_CONFLICTS"),
+                0,
+                None,
+                &context,
+            );
+            self.names.push(disagree);
         }
     }
 

@@ -276,22 +276,16 @@ impl Names {
         // Names were already sorted, so get the first from both lists
         let first_name_network: Name = network_names.clone().into_iter().nth(0).unwrap();
         let first_name_address: Name = address_names.clone().into_iter().nth(0).unwrap();
-
         if total_freq > 10
             && (first_name_address.freq as f32 / total_freq as f32) > 0.08
-            && first_name_network.tokenless_string() != first_name_address.tokenless_string()
+            && first_name_network.tokenized_string() != first_name_address.tokenized_string()
         {
             let context = Context::new(
                 String::from("us"),
                 None,
                 Tokens::new(HashMap::new(), HashMap::new(), HashMap::new()),
             );
-            let disagree = Name::new(
-                String::from("NETWORK_CONFLICTS"),
-                0,
-                None,
-                &context,
-            );
+            let disagree = Name::new(String::from("Network_Conflicts"), 0, None, &context);
             self.names.push(disagree);
         }
     }
@@ -781,6 +775,208 @@ mod tests {
             ],
         };
         assert_eq!(names, names_deduped);
+    }
+
+    #[test]
+    fn test_names_detect_conflicting_network() {
+        let mut context = Context::new(
+            String::from("us"),
+            None,
+            Tokens::generate(vec![String::from("en")]),
+        );
+        // Detects that network name conflicts with majority address name
+        let mut names_pre_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(100),
+            ],
+        };
+        names_pre_detect_conflicting_network.detect_conflicting_network();
+        let names_post_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(100),
+                Name::new(String::from("Network_Conflicts"), 0, None, &context),
+            ],
+        };
+        assert_eq!(
+            names_pre_detect_conflicting_network,
+            names_post_detect_conflicting_network
+        );
+
+        // Detects that network name does not conflict with majority address name because below threshold
+        let mut names_pre_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+                Name::new(
+                    String::from("West Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+            ],
+        };
+        names_pre_detect_conflicting_network.detect_conflicting_network();
+        let names_post_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+                Name::new(
+                    String::from("West Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+            ],
+        };
+        assert_eq!(
+            names_pre_detect_conflicting_network,
+            names_post_detect_conflicting_network
+        );
+
+        // Detects that network conflict with majority address name
+        let mut names_pre_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+                Name::new(
+                    String::from("West Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+            ],
+        };
+        names_pre_detect_conflicting_network.detect_conflicting_network();
+        let names_post_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("East Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+                Name::new(
+                    String::from("West Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(10),
+                Name::new(String::from("Network_Conflicts"), 0, None, &context),
+            ],
+        };
+        assert_eq!(
+            names_pre_detect_conflicting_network,
+            names_post_detect_conflicting_network
+        );
+
+        // Detects that network name does not conflict with majority address name
+        let mut names_pre_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(100),
+            ],
+        };
+        names_pre_detect_conflicting_network.detect_conflicting_network();
+        let names_post_detect_conflicting_network = Names {
+            names: vec![
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Network),
+                    &context,
+                ),
+                Name::new(
+                    String::from("Main Street"),
+                    0,
+                    Some(Source::Address),
+                    &context,
+                )
+                .set_freq(100),
+            ],
+        };
+        assert_eq!(
+            names_pre_detect_conflicting_network,
+            names_post_detect_conflicting_network
+        );
     }
 
     #[test]

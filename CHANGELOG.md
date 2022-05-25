@@ -10,6 +10,9 @@
 
 ## Version History
 
+### v29.1.1-dev
+- :tada: debug to detect networks that disagree with address points
+
 ### v29.1.0
 - :tada: filter outlier address cluster names based on name prevalence within address cluster
 

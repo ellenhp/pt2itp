@@ -892,14 +892,14 @@ mod tests {
                     &context,
                 ),
                 Name::new(
-                    String::from("East Main Street"),
+                    String::from("West Main Street"),
                     0,
                     Some(Source::Address),
                     &context,
                 )
-                .set_freq(10),
+                .set_freq(100),
                 Name::new(
-                    String::from("West Main Street"),
+                    String::from("East Main Street"),
                     0,
                     Some(Source::Address),
                     &context,
@@ -917,14 +917,14 @@ mod tests {
                     &context,
                 ),
                 Name::new(
-                    String::from("East Main Street"),
+                    String::from("West Main Street"),
                     0,
                     Some(Source::Address),
                     &context,
                 )
-                .set_freq(10),
+                .set_freq(100),
                 Name::new(
-                    String::from("West Main Street"),
+                    String::from("East Main Street"),
                     0,
                     Some(Source::Address),
                     &context,

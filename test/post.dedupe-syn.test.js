@@ -91,8 +91,7 @@ tape('dedupe feature names', (t) => {
             'NE M L K',
             'NE Martin Luther King',
             'NE MLK Jr',
-            'NE M L K Jr',
-            'Network_Conflicts'
+            'NE M L K Jr'
         ]);
 
     t.deepEqual(

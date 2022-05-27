@@ -277,7 +277,7 @@ impl Names {
             let first_name_network: Name = network_names.clone().into_iter().nth(0).unwrap();
             let first_name_address: Name = address_names.clone().into_iter().nth(0).unwrap();
             if total_freq > 10
-                && (first_name_address.freq as f32 / total_freq as f32) > 0.08
+                && (first_name_address.freq as f32 / total_freq as f32) > 0.8
                 && first_name_network.tokenized_string() != first_name_address.tokenized_string()
             {
                 let context = Context::new(
